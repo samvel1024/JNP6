@@ -10,7 +10,7 @@ Ponieważ chcemy symulować różne bitwy, należy przygotować rozwiązanie og�
 Stwórz klasy opisane poniżej oraz odpowiednie klasy pomocnicze, które ułatwią
 implementację oraz umożliwią łatwą rozbudowę programu.
 
-= Plik rebelfleet.h oraz rebelfleet.cc =
+##  Plik rebelfleet.h oraz rebelfleet.cc =
 
 Klasy Explorer, StarCruiser i XWing, w których używane są typy pomocnicze:
 * ShieldPoints będący typem przechowującym wytrzymałość tarczy,
@@ -38,7 +38,8 @@ RebelStarship.
 Dodatkowo powinny istnieć funkcje fabrykujące dla Explorer, StarCruiser i XWing
 z sygnaturami pasującymi do przykładu.
 
-= Plik imperialfleet.h oraz imperialfleet.cc =
+##  Plik imperialfleet.h oraz imperialfleet.cc =
+
 
 Klasy DeathStar, ImperialDestroyer i TIEFighter, w których używane są typy
 pomocnicze:
@@ -72,7 +73,7 @@ Squadron ma metody publiczne:
 Dodatkowo powinny istnieć funkcje fabrykujące dla DeathStar, ImperialDestroyer,
 TIEFighter i Squadron z sygnaturami pasującymi do przykładu.
 
-= Plik battle.h oraz battle.cc =
+##  Plik battle.h oraz battle.cc =
 
 Klasa SpaceBattle tworzona za pomocą klasy Builder, dla której można ustawić co
 najmniej:
@@ -115,7 +116,7 @@ zniszczone, powoduje wypisanie na standardowe wyjście napisu "IMPERIUM WON\n".
 Jeśli wszystkie statki zarówno Imperium jak i Rebelii są zniszczone, to zostaje
 wypisany napis "DRAW\n".
 
-= Inne wymagania =
+##  Inne wymagania =
 
 Bardzo istotną częścią zadania jest zaprojektowanie odpowiedniej hierarchii
 klas. W szczególności nie wszystkie klasy, jakie są wymagane w rozwiązaniu,
