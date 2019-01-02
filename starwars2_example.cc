@@ -2,6 +2,7 @@
 #include "imperialfleet.h"
 #include "rebelfleet.h"
 #include "battle.h"
+#include <unordered_map>
 
 int main() {
     auto xwing = createXWing(100, 300000, 50);
