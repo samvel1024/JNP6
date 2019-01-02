@@ -21,9 +21,10 @@ int main() {
 
     assert(fighter.getAttackPower() == 9);
     assert(fighter.getShieldPoints() == 50);
+    auto ds = createDeathStar(1, 2);
+    auto squadron = Squadron<int, int>({ds, fighter});
 
-    auto squadron = Squadron<int, int>({createDeathStar(1, 2), fighter});
-
+    squadron.takeDamage(20);
 
 
     std::vector<ImperialStarship<int, int>> vec{createTIEFighter(1, 2), createImperialDestroyer(2, 3)};

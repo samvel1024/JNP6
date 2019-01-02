@@ -23,7 +23,7 @@ public:
         this->shieldPoints -= std::min(attackPower, this->shieldPoints);
     }
 
-    virtual int aliveCount() {
+    virtual int getAliveCount() {
         return getShieldPoints() > 0 ? 1 : 0;
     }
 };
@@ -172,28 +172,39 @@ private:
 
     using Ship = ImperialStarship<ShieldPoints, AttackPower>;
 
-
-    struct AttackPowerMapper {
-        AttackPower operator()(Ship &s){
-            return s.getAttackPower();
-        }
-    };
-
     template<typename R, typename T, typename M>
-    T reduce_vector(std::vector<R> &vec, M mapper) {
-        T t;
+    T reduce_vector(T init, std::vector<R> &vec, M mapper) {
+        T t = init;
         for(auto &s: vec){
             t += mapper(s);
         }
         return t;
     }
 
+    std::vector<Ship> ships;
+
 public:
     virtual ~Squadron() = default;
 
-    Squadron(std::vector<Ship> ships) :
-        AttackerStarship<AttackPower>(reduce_vector<Ship, AttackPower, AttackPowerMapper>(ships, AttackPowerMapper())),
-        Starship<ShieldPoints, AttackPower>(0) {}
+    explicit Squadron(std::vector<Ship> ships) :
+        ships(ships),
+        AttackerStarship<AttackPower>(reduce_vector<Ship, AttackPower>(0, ships, [](Ship &s){return s.getAttackPower();})),
+        Starship<ShieldPoints, AttackPower>(reduce_vector<Ship, ShieldPoints>(0, ships, [](Ship &s){return s.getShieldPoints();})) {}
+
+    ShieldPoints getShieldPoints() override {
+        return reduce_vector(0, ships, [](Ship &s){return s.getShieldPoints();});
+    }
+
+    int getAliveCount() override {
+        return reduce_vector(0, ships, [](Ship &s){return s.getAliveCount();});
+    }
+
+    void takeDamage(AttackPower attackPower) override {
+        for(Ship &s : ships){
+            s.takeDamage(attackPower);
+        }
+    }
+
 };
 
 
