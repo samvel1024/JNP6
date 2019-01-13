@@ -6,6 +6,14 @@
 #include "rebelfleet.h"
 #include <exception>
 
+/**
+ * The implementation of battle time
+ * Provides method for checking if battle should take place now,
+ * as well as methods to increment, reset, and manipulate time range.
+ *
+ * To provide a specific implementation for battle timing use SpaceBattle::Builder::battleTimer
+ * @tparam T
+ */
 template<typename T>
 class BattleTimer {
  protected:
@@ -13,7 +21,7 @@ class BattleTimer {
   T max;
  public:
 
-  virtual ~BattleTimer() = 0;
+  virtual ~BattleTimer() = default;
 
   virtual void set_start(T t) {
     now = t;
@@ -32,12 +40,10 @@ class BattleTimer {
 
 template<typename T>
 class DefaultBattleTimer : public BattleTimer<T> {
-
  public:
   bool should_attack() override {
     return (this->now % 5 != 0) && (this->now % 2 == 0 || this->now % 3 == 0);
   }
-
 };
 
 class SpaceBattle {
@@ -72,19 +78,19 @@ class SpaceBattle {
       return *this;
     }
 
-    virtual Builder startTime(const Time t) {
+    virtual Builder &startTime(const Time t) {
       validate(t >= 0, "Time cannot be negative");
       start_time = t;
       return *this;
     }
 
-    virtual Builder maxTime(const Time t) {
+    virtual Builder &maxTime(const Time t) {
       validate(t >= 0, "Time cannot be negative");
       max_time = t;
       return *this;
     }
 
-    virtual Builder battleTimer(const std::shared_ptr<BattleTimer<Time>> &t) {
+    virtual Builder &battleTimer(const std::shared_ptr<BattleTimer<Time>> &t) {
       validate(t != nullptr, "Timer cannot be null");
       timer = t;
       std::cout << "Assigned\n";

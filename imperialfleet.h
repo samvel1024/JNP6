@@ -23,7 +23,7 @@ class Squadron : public ImperialStarship {
   std::vector<std::shared_ptr<ImperialStarship>> ships;
 
   template<typename R, typename T, typename M>
-  T map_sum_vec(T init, std::vector<R> &vec, M mapper) {
+  T map_sum_vec(T init, const std::vector<R> &vec, M mapper) const {
     T t = init;
     for (auto &s: vec) {
       t += mapper(s);
@@ -40,7 +40,7 @@ class Squadron : public ImperialStarship {
 
   }
 
-  int getAliveCount() override {
+  int getAliveCount() const override {
     return map_sum_vec(0, ships, [](auto &s) { return s->getAliveCount(); });
   }
 
@@ -48,7 +48,7 @@ class Squadron : public ImperialStarship {
     for (const auto &sh : ships) {
       sh->takeDamage(attackPower);
     }
-    shieldPoints = map_sum_vec(0, ships, [](auto &s) { return s->getShield(); });
+    this->shieldPoints = map_sum_vec(0, ships, [](auto &s) { return s->getShield(); });
   }
 
 };

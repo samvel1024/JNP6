@@ -17,7 +17,7 @@ class Starship {
 
   explicit Starship(ShieldPoints shieldPoints) : shieldPoints(shieldPoints) {}
 
-  virtual ShieldPoints getShield() {
+  virtual ShieldPoints getShield() const {
     return this->shieldPoints;
   }
 
@@ -25,7 +25,7 @@ class Starship {
     this->shieldPoints -= std::min(attackPower, this->shieldPoints);
   }
 
-  virtual int getAliveCount() {
+  virtual int getAliveCount() const {
     return getShield() > 0 ? 1 : 0;
   }
 };
