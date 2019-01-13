@@ -21,20 +21,20 @@ int main() {
         .ship(explorer)
         .build();
 
-    assert(battle.countRebelFleet() == 2);
-    assert(battle.countImperialFleet() == 2);
+  assert(battle.countRebelFleet() == 2);
+  assert(battle.countImperialFleet() == 2);
 
-    battle.tick(3);
-    assert(battle.countRebelFleet() == 2);
-    assert(battle.countImperialFleet() == 1);
+  battle.tick(3);
+  assert(battle.countRebelFleet() == 2);
+  assert(battle.countImperialFleet() == 1);
 
-    battle.tick(1);
-    assert(battle.countRebelFleet() == 2);
-    assert(battle.countImperialFleet() == 1);
+  battle.tick(1);
+  assert(battle.countRebelFleet() == 2);
+  assert(battle.countImperialFleet() == 1);
 
-    battle.tick(4);
-    assert(battle.countRebelFleet() == 0);
-    assert(battle.countImperialFleet() == 1);
+  battle.tick(4);
+  assert(battle.countRebelFleet() == 0);
+  assert(battle.countImperialFleet() == 1);
 
-    battle.tick(1); // Wypisuje "IMPERIUM WON\n".
+  battle.tick(1); // Wypisuje "IMPERIUM WON\n".
 }
