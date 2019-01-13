@@ -2,6 +2,8 @@
 #define JNP6_REBEL
 #include "helper.h"
 
+#define UNUSED(x) (void)(x)
+
 class RebelStarship :
     public Starship,
     public MovingStarship {
@@ -12,8 +14,10 @@ class RebelStarship :
   ~RebelStarship() override = default;
 
   RebelStarship(Starship::ShieldPoints shp, MovingStarship::Speed sp) :
-      MovingStarship(sp),
-      Starship(shp) {}
+      Starship(shp),
+      MovingStarship(sp) {
+
+  }
 
   virtual void defend(Starship &attacker) = 0;
 
@@ -28,7 +32,7 @@ class Explorer :
       RebelStarship(shp, sp) {}
 
   void defend(Starship &attacker) override {
-    // Do nothing
+    UNUSED(attacker);
   }
 };
 
@@ -39,7 +43,7 @@ class AggressiveRebel :
   ~AggressiveRebel() override = default;
 
   AggressiveRebel(Starship::ShieldPoints shp, MovingStarship::Speed sp, Starship::AttackPower ap) :
-      RebelStarship(shp, sp), AttackerStarship(ap) {}
+      AttackerStarship(ap), RebelStarship(shp, sp) {}
 
   void defend(Starship &attacker) override {
     attacker.takeDamage(this->attackPower);

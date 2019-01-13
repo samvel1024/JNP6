@@ -2,6 +2,7 @@
 #define JNP6_HELPER
 
 #include <vector>
+#include <memory>
 
 class Starship {
  public:

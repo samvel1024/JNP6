@@ -35,10 +35,10 @@ class Squadron : public ImperialStarship {
 
  public:
   Squadron(std::vector<std::shared_ptr<ImperialStarship>> sh) :
-      ships(sh),
       ImperialStarship(
           map_sum_vec(0, sh, [](auto &s) { return s->getShield(); }),
-          map_sum_vec(0, sh, [](auto &s) { return s->getAttackPower(); })) {
+          map_sum_vec(0, sh, [](auto &s) { return s->getAttackPower(); })),
+      ships(sh) {
 
   }
 

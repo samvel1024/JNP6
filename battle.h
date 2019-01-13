@@ -101,7 +101,7 @@ class SpaceBattle {
       validate(start_time <= max_time, "Max time cannot be less than start time");
       timer->set_start(start_time);
       timer->max_time(max_time);
-      return SpaceBattle(timer, imperials, rebels);
+      return SpaceBattle(imperials, rebels, timer);
     }
 
   };
@@ -111,10 +111,10 @@ class SpaceBattle {
   std::vector<std::shared_ptr<RebelStarship>> rebels;
   std::shared_ptr<BattleTimer<Time>> timer;
   SpaceBattle(
-      std::shared_ptr<BattleTimer<Time>> t,
       std::vector<std::shared_ptr<ImperialStarship>> imp,
-      std::vector<std::shared_ptr<RebelStarship>> reb)
-      : timer(std::move(t)), imperials(std::move(imp)), rebels(std::move(reb)) {
+      std::vector<std::shared_ptr<RebelStarship>> reb,
+      std::shared_ptr<BattleTimer<Time>> t)
+      : imperials(std::move(imp)), rebels(std::move(reb)), timer(std::move(t)) {
   }
 
   template<typename Ships>
