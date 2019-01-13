@@ -1,10 +1,8 @@
 #ifndef JNP6_HELPER
 #define JNP6_HELPER
 
-#include <utility>
-
-#include <utility>
 #include <vector>
+
 class Starship {
  public:
   using ShieldPoints = int;
@@ -58,7 +56,7 @@ class AttackerStarship {
   AttackerStarship(AttackPower attackPower) :
       attackPower(attackPower) {}
 
-  AttackPower getAttackPower() const {
+  virtual AttackPower getAttackPower() const {
     return attackPower;
   }
 };

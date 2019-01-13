@@ -1,5 +1,6 @@
 #ifndef JNP6_IMPERIAL
 #define JNP6_IMPERIAL
+#include <functional>
 #include "helper.h"
 
 class ImperialStarship : public AttackerStarship, public Starship {
@@ -26,7 +27,8 @@ class Squadron : public ImperialStarship {
   T map_sum_vec(T init, const std::vector<R> &vec, M mapper) const {
     T t = init;
     for (auto &s: vec) {
-      t += mapper(s);
+      if (s->getAliveCount() > 0)
+        t += mapper(s);
     }
     return t;
   }
@@ -49,6 +51,7 @@ class Squadron : public ImperialStarship {
       sh->takeDamage(attackPower);
     }
     this->shieldPoints = map_sum_vec(0, ships, [](auto &s) { return s->getShield(); });
+    this->attackPower = map_sum_vec(0, ships, [](auto &s) { return s->getAttackPower(); });
   }
 
 };
