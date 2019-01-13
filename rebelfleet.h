@@ -19,11 +19,10 @@ class RebelStarship :
 
 };
 
-
 class Explorer :
     public RebelStarship {
  public:
-  virtual ~Explorer() = default;
+  ~Explorer() override = default;
 
   Explorer(Starship::ShieldPoints shp, MovingStarship::Speed sp) :
       RebelStarship(shp, sp) {}
@@ -37,7 +36,7 @@ class AggressiveRebel :
     public AttackerStarship,
     public RebelStarship {
  public:
-  virtual ~AggressiveRebel() = default;
+  ~AggressiveRebel() override = default;
 
   AggressiveRebel(Starship::ShieldPoints shp, MovingStarship::Speed sp, Starship::AttackPower ap) :
       RebelStarship(shp, sp), AttackerStarship(ap) {}

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "imperialfleet.h"
 #include "rebelfleet.h"
+#include <exception>
 
 template<typename T>
 class BattleTimer {
@@ -11,6 +12,9 @@ class BattleTimer {
   T now;
   T max;
  public:
+
+  virtual ~BattleTimer() = 0;
+
   virtual void set_start(T t) {
     now = t;
   }
@@ -38,6 +42,7 @@ class DefaultBattleTimer : public BattleTimer<T> {
 
 class SpaceBattle {
  public:
+
   using Time = int;
 
   class Builder {
@@ -47,33 +52,47 @@ class SpaceBattle {
     Time start_time;
     Time max_time;
     std::shared_ptr<BattleTimer<Time>> timer = std::make_shared<DefaultBattleTimer<Time>>();
+
+    void validate(bool predicate, const std::string &msg) {
+      if (!predicate) {
+        throw std::invalid_argument(msg);
+      }
+    }
+
    public:
     virtual Builder &ship(const std::shared_ptr<RebelStarship> &r) {
+      validate(r != nullptr, "Ship cannot be null");
       rebels.push_back(r);
       return *this;
     }
 
     virtual Builder &ship(const std::shared_ptr<ImperialStarship> &i) {
+      validate(i != nullptr, "Ship cannot be null");
       imperials.push_back(i);
       return *this;
     }
 
     virtual Builder startTime(const Time t) {
+      validate(t >= 0, "Time cannot be negative");
       start_time = t;
       return *this;
     }
 
     virtual Builder maxTime(const Time t) {
+      validate(t >= 0, "Time cannot be negative");
       max_time = t;
       return *this;
     }
 
-    virtual Builder timingStrategy(const std::shared_ptr<BattleTimer<Time>> &t) {
+    virtual Builder battleTimer(const std::shared_ptr<BattleTimer<Time>> &t) {
+      validate(t != nullptr, "Timer cannot be null");
       timer = t;
+      std::cout << "Assigned\n";
       return *this;
     }
 
     virtual SpaceBattle build() {
+      validate(start_time <= max_time, "Max time cannot be less than start time");
       timer->set_start(start_time);
       timer->max_time(max_time);
       return SpaceBattle(timer, imperials, rebels);
@@ -93,7 +112,7 @@ class SpaceBattle {
   }
 
   template<typename Ships>
-  size_t count(Ships &v) {
+  size_t count(Ships &v) const {
     size_t ans = 0;
     for (const auto &sh: v) {
       ans += sh->getAliveCount();
@@ -132,11 +151,11 @@ class SpaceBattle {
     }
   }
 
-  size_t countRebelFleet() {
+  size_t countRebelFleet() const {
     return count(rebels);
   }
 
-  size_t countImperialFleet() {
+  size_t countImperialFleet() const {
     return count(imperials);
   }
 
